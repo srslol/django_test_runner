@@ -32,7 +32,7 @@ jobs:
       run: |
         working_path="/home/clenera/code/django_test_runner"
         if [ -d "$working_path" ]; then
-          echo Tar existing files to /tmp
+          echo -> Tar-ing existing files to /home/clenera/old_files
           cd /home/clenera/old_files
           name=$(date +"%Y_%m_%d_%I_%M_%p")
           tar -zcvf "$name.tar.gz" $working_path
@@ -42,8 +42,10 @@ jobs:
     - name: Build and Push Image
       run: |
         working_path="/home/clenera/code/django_test_runner"
-        echo -> change path to $working_path
-        cd $working_path
+        if [ -d "$working_path" ]; then
+          echo -> change path to $working_path
+          cd $working_path
+        fi
         echo -> clone repo to django_test_runner
         git clone https://github.com/srslol/django_test_runner.git
         echo -> docker login to ghcr
