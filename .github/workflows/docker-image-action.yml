@@ -18,7 +18,7 @@ jobs:
     - name: Stop Docker containers
       run: |
         echo -> Stopping Docker Containers - DOWN
-        container_name="django_test_01"
+        container_name="django_test_01-web-1"
         if [ "$( docker container inspect -f '{{.State.Running}}' $container_name )" = "true" ]; then
           echo Container is running so stopping
           folder="/home/clenera/code/django_test"
