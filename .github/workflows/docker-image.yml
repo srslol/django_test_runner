@@ -1,0 +1,58 @@
+name: Docker Image CI for GHCR
+
+on:
+  push:
+  pull_request:
+  branch_protection_rule:
+    types: [created, deleted, edited]
+
+jobs:
+  build:
+    runs-on:
+      - dev
+      - django
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Stop Docker containers
+      run: |
+        echo Stopping Docker Containers - DOWN
+        container_name="django_test_01"
+        if [ "$( docker container inspect -f '{{.State.Running}}' $container_name )" = "true" ]; then
+          echo Container is running so stopping
+          folder="/home/clenera/code/django_test"
+          cd $folder
+          docker-compose -p test -f compose.yaml down
+        else
+          echo "Message:  Docker container(s) was not running."
+        fi
+
+    - name: Archive old files [Not sure if this is required or not.]
+      run: |
+        working_path="/home/clenera/code/django_test"
+        if [ -d "$working_path" ]; then
+          echo Tar existing files to /tmp
+          cd /home/clenera/old_files
+          name=$(date +"%Y_%m_%d_%I_%M_%p")
+          tar -zcvf "$name.tar.gz" $working_path
+          rm -rf $working_path
+        fi
+    
+    - name: Build and Push Image
+      run: |
+        echo docker login to ghcr
+        docker login --username srslol --password ${{ secrets.GH_TOKEN }} ghcr.io
+        echo docker build
+        docker build . --tag ghcr.io/srslol/django_test_runner:latest
+        echo change path
+        cd /home/clenera/code/basic_01
+        echo clone repo to basic_01
+        git clone https://github.com/srslol/docker_me_1.git
+        echo change directory to docker_me_1
+        cd /home/clenera/code/basic_01/docker_me_1
+        echo docker push
+        docker push ghcr.io/srslol/django_test_runner:latest
+        echo Starting Docker Containers - UP
+        docker-compose -p test -f mongo-sevices.yaml up -d
+        echo COMPLETED
