@@ -45,6 +45,10 @@ jobs:
         if [ -d "$working_path" ]; then
           echo -> change path to $working_path
           cd $working_path
+        else 
+          echo -> change path to $working_path
+          mkdir $working_path
+          cd $working_path
         fi
         echo -> clone repo to django_test_runner
         git clone https://github.com/srslol/django_test_runner.git
