@@ -23,7 +23,7 @@ jobs:
           echo -> Container is running so now stopping
           folder="/home/clenera/code/django_test_runner"
           cd $folder
-          docker compose -p django_test_01 -f compose.yaml down
+          docker compose -p app/django_test_01 -f compose.yaml down
         else
           echo "-> Message:  Docker container(s) was not running."
         fi
@@ -41,7 +41,7 @@ jobs:
     
     - name: Build and Push Image
       run: |
-        working_path="/home/clenera/code/django_test_runner"
+        working_path="/home/clenera/code/"
         if [ -d "$working_path" ]; then
           echo -> change path to $working_path
           cd $working_path
@@ -55,7 +55,7 @@ jobs:
         echo -> docker login to ghcr
         docker login --username srslol --password ${{ secrets.GH_TOKEN }} ghcr.io
         echo -> docker build
-        docker build . --tag ghcr.io/srslol/django_test_runner:latest
+        docker build ./app --tag ghcr.io/srslol/django_test_runner:latest
         # echo -> change directory to django_test
         # cd $working_path
         echo -> docker push
