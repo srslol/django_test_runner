@@ -21,9 +21,9 @@ jobs:
         container_name="django_test_01-web-1"
         if [ "$( docker container inspect -f '{{.State.Running}}' $container_name )" = "true" ]; then
           echo -> Container is running so now stopping
-          folder="/home/clenera/code/django_test_runner"
-          cd $folder
-          docker compose -p app/django_test_01 -f compose.yaml down
+          working_path="/home/clenera/code/django_test_runner"
+          cd $working_path
+          docker compose -p django_test_01 -f compose.yaml down
         else
           echo "-> Message:  Docker container(s) was not running."
         fi
