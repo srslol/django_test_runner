@@ -54,9 +54,10 @@ jobs:
         git clone https://github.com/srslol/django_test_runner.git
         echo -> docker login to ghcr
         docker login --username srslol --password ${{ secrets.GH_TOKEN }} ghcr.io
-        echo -> docker build
-        docker_file_path="/home/clenera/code/django_test_runner"
+        echo -> change folder to docker_file_path
+        docker_file_path="/home/clenera/code/django_test_runner/app"
         cd $docker_file_path
+        echo -> Docker build from app/
         docker build . --tag ghcr.io/srslol/django_test_runner:latest
         echo -> docker push
         docker push ghcr.io/srslol/django_test_runner:latest
