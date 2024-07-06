@@ -55,7 +55,8 @@ jobs:
         echo -> docker login to ghcr
         docker login --username srslol --password ${{ secrets.GH_TOKEN }} ghcr.io
         echo -> docker build
-        docker build ./app --tag ghcr.io/srslol/django_test_runner:latest
+        docker_file_path="/home/clenera/code/django_test_runner"
+        docker build $docker_file_path/. --tag ghcr.io/srslol/django_test_runner:latest
         # echo -> change directory to django_test
         # cd $working_path
         echo -> docker push
