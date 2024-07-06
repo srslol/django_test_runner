@@ -20,8 +20,8 @@ jobs:
         echo -> Stopping Docker Containers - DOWN
         container_name="django_test_01-web-1"
         if [ "$( docker container inspect -f '{{.State.Running}}' $container_name )" = "true" ]; then
-          echo Container is running so stopping
-          folder="/home/clenera/code/django_test"
+          echo -> Container is running so now stopping
+          folder="/home/clenera/code/django_test_runner"
           cd $folder
           docker compose -p django_test_01 -f compose.yaml down
         else
@@ -50,8 +50,8 @@ jobs:
         docker login --username srslol --password ${{ secrets.GH_TOKEN }} ghcr.io
         echo -> docker build
         docker build . --tag ghcr.io/srslol/django_test_runner:latest
-        echo -> change directory to django_test
-        cd /home/clenera/code/basic_01/docker_me_1
+        # echo -> change directory to django_test
+        # cd $working_path
         echo -> docker push
         docker push ghcr.io/srslol/django_test_runner:latest
         
