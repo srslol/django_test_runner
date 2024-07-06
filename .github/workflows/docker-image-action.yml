@@ -59,9 +59,11 @@ jobs:
         cd $docker_file_path
         echo -> Docker build from app/
         docker build . --tag ghcr.io/srslol/django_test_runner:latest
+    - name: Push Container to GHCR
+      run: |
         echo -> docker push
         docker push ghcr.io/srslol/django_test_runner:latest
-        
+        echo -> pushed
     - name: Start Containers
       run: |
         echo -> Starting Docker Containers - UP
