@@ -50,3 +50,5 @@ Stop and remove the containers
 ```
 $ docker compose down
 ```
+
+# Thank you and have a great day
