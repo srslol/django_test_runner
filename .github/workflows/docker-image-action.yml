@@ -2,7 +2,7 @@ name: Docker Image CI for GHCR #
 
 on:
   push:
-  pull_request:
+  # pull_request: #Don't know if we need for a pull request.
   branch_protection_rule:
     types: [created, deleted, edited]
 
